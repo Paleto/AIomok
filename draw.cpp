@@ -83,9 +83,7 @@ int CDRAW::GetMenu(char *cTitle)
     
     const char *strTitle[] = {
     	"O M O K  G A M E",
-    	"고모쿠(GOMOKU) 룰",
     	"일  반(NORMAL) 룰",
-    	"렌  주(RENJU)  룰",
 		"그   만   하   기"
 	};
 	
@@ -94,10 +92,8 @@ int CDRAW::GetMenu(char *cTitle)
                            "  1. ",
                            "                         ",
                            "  2. ",
-                           "                         ",
-                           "  3. ",
-                           "                         ",
-                           "  4. "};
+                           "                         "
+                           };
 
     x = strlen(menu[1]);
     y = sizeof(menu) / sizeof(menu[0]);
@@ -236,14 +232,39 @@ void CDRAW::showMsg(int msg)
 }
 
 
+//게임 조작키 표시  
 void CDRAW::infoKey()
 {
+	const char *str[] = {
+		"방  향  키 : 이  동",
+		"",
+		" SpaceBar  :돌 놓기",
+		"",
+		" ESC : 게임 종료하기",
+		"",
+		"    U      : 무르기  ",
+		"",
+		" Delete : 턴 넘기기  "
+	};
+	
+	
+	SetColor(GRAY);
+	for(int i = 0; i < sizeof(str) / sizeof(str[0]); i++)
+	{
+    	gotoxy((nX + SIZE + 1) * 2, nY + 4 + i);
+    	printf(str[i]);
+	}
 }
 
-
+//messagebox 아이콘추가와 알림멘트 수정, 인자 MB_YESNO 로 수정  
 bool CDRAW::endMsg(int stone)
 {
- 
+ 	const char *winner[] = {"    흑돌 승! \n 한 게임 더 하시겠습니까?",
+							"    백돌 승! \n 한 게임 더 하시겠습니까?",
+							"    무승부!  \n 한 게임 더 하시겠습니까?"};
+	showMsg(stone + 3);
+	if(MessageBox(NULL, winner[stone], "알 림", MB_ICONQUESTION|MB_YESNO) == IDYES) return true;
+	else return false; 
 }
 
 // 바둑판과 돌을 그린다. 
